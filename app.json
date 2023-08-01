@@ -1,0 +1,11 @@
+{
+  "expo": {
+    "name": "code-id-fe-test",
+    "slug": "code-id-fe-test",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  },
+  "name": "code-id-fe-test"
+}
