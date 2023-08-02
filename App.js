@@ -1,21 +1,43 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, {Suspense} from 'react';
+import { useFonts } from 'expo-font'
+import { StatusBar } from 'expo-status-bar'
+import { useColorScheme } from 'react-native'
+
+// Provider
+import { legacy_createStore as createStore, applyMiddleware } from 'redux'
+import { Provider } from 'react-redux';
+import thunk from 'redux-thunk';
+import reducers from './src/store/reducers';
+import { composeWithDevTools } from "redux-devtools-extension";
+
+// Routes
+import Routers from "./src/routers"
+
+// GUI
+import { Paragraph, Spacer, TamaguiProvider, Theme, YStack } from 'tamagui'
+import config from './tamagui.config'
 
 export default function App() {
+  const store = createStore(reducers, {}, composeWithDevTools(applyMiddleware(thunk)))
+
+  const colorScheme = useColorScheme()
+
+  const [loaded] = useFonts({
+    Inter: require('@tamagui/font-inter/otf/Inter-Medium.otf'),
+    InterBold: require('@tamagui/font-inter/otf/Inter-Bold.otf'),
+  })
+
+  if (!loaded) {
+    return null
+  }
+  
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <TamaguiProvider config={config}>
+      <Suspense>
+        <Provider store={store}>
+          <Routers />
+        </Provider>
+      </Suspense>
+    </TamaguiProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
