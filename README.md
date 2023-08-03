@@ -8,7 +8,9 @@
 <hr><ul>
 <li>JavaScript</li>
 </ul><ul>
-<li>React</li>
+<li>React Native</li>
+</ul><ul>
+<li>React Redux & Thunk</li>
 </ul><h5>Run build android & start running this app</h5><ul>
 <li>npm run android</li>
 </ul>
