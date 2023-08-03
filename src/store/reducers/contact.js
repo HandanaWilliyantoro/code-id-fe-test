@@ -24,10 +24,7 @@ import {
       case UPDATE_CONTACT:
         return {...contacts, list: contacts.list.map((contact) => {
           if (contact.id === payload.id) {
-            return {
-              ...contact,
-              ...payload,
-            };
+            return payload;
           } else {
             return contact;
           }

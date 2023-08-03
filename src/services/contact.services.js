@@ -14,22 +14,29 @@ class ContactDataServices {
     .catch(_ => Toast.show('Failed to get contact'))
   }
 
-  create(data) {
-    return http.post("/contact", data)
-    .then(({data}) => data)
-    .catch(_ => Toast.show('Failed to create contact'))
+  create(payload) {
+    return http.post("/contact", payload)
+    .then((data) => data)
+    .catch(e => {
+      console.log(e, 'ini error')
+      Toast.show('Failed to create contact');
+    })
   }
 
-  update(id, data) {
-    return http.put(`/contact/${id}`, data)
+  update(id, payload) {
+    return http.put(`/contact/${id}`, payload)
     .then(({data}) => data)
     .catch(_ => Toast.show('Failed to update contact'))
   }
 
   delete(id) {
+    console.log(id, 'ini id')
     return http.delete(`/contact/${id}`)
     .then(({data}) => data)
-    .catch(_ => Toast.show('Failed to delete contact'))
+    .catch(e => {
+      console.log(e, 'ini error')
+      Toast.show('Failed to delete contact')
+    })
   }
 }
 

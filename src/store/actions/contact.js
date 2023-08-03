@@ -5,19 +5,20 @@ import {
     RETRIEVE_ALL_CONTACTS,
     DELETE_CONTACT
 } from "../types";
-
 import ContactDataServices from '../../services/contact.services'
 
-export const createContact = ({firstName, lastName, age, photo}) => async (dispatch) => {
+export const createContact = (data) => async (dispatch) => {
     try {
-        const res = await ContactDataServices.create({ firstName, lastName, age, photo });
+        const res = await ContactDataServices.create(data);
+
+        console.log(res, 'ini response')
 
         dispatch({
             type: CREATE_CONTACT,
-            payload: res.data,
+            payload: res,
         });
 
-        return Promise.resolve(res.data);
+        return Promise.resolve(res);
     } catch (err) {
         return Promise.reject(err);
     }
@@ -26,8 +27,6 @@ export const createContact = ({firstName, lastName, age, photo}) => async (dispa
 export const retrieveAllContacts = () => async (dispatch) => {
     try {
         const res = await ContactDataServices.getAll();
-        console.log(res, 'ini res')
-
         dispatch({
             type: RETRIEVE_ALL_CONTACTS,
             payload: res.data,
@@ -39,14 +38,14 @@ export const retrieveAllContacts = () => async (dispatch) => {
 
 export const updateContact = (id, data) => async (dispatch) => {
     try {
-        const res = await ContactDataServices.update(id, data);
+        await ContactDataServices.update(id, data);
 
         dispatch({
             type: UPDATE_CONTACT,
-            payload: data,
+            payload: {...data, id},
         });
 
-        return Promise.resolve(res.data);
+        return Promise.resolve(data);
     } catch (err) {
         return Promise.reject(err);
     }
@@ -68,7 +67,6 @@ export const deleteContact = (id) => async (dispatch) => {
 export const retrieveContact = (id) => async (dispatch) => {
     try {
         const res = await ContactDataServices.get(id);
-
         dispatch({
             type: RETRIEVE_CONTACT,
             payload: res.data,
